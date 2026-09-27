@@ -54,7 +54,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public String createUser(@RequestBody RequestUser user) {
+    public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
@@ -63,6 +63,6 @@ public class UserController {
 
         ResponseUser responseUser = mapper.map(userDto, ResponseUser.class);
 
-        return "Create user method called.";
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
     }
 }
