@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 //import org.modelmapper.ModelMapper;
 //import org.modelmapper.convention.MatchingStrategies;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -51,16 +53,16 @@ public class UserController {
         return greeting.getMessage();
     }
 
-//    @PostMapping("/users")
-//    public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
-//        ModelMapper mapper = new ModelMapper();
-//        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-//
-//        UserDto userDto = mapper.map(user, UserDto.class);
-//        userService.createUser(userDto);
-//
-//        ResponseUser responseUser = mapper.map(userDto, ResponseUser.class);
-//
-//        return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
-//    }
+    @PostMapping("/users")
+    public String createUser(@RequestBody RequestUser user) {
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+
+        UserDto userDto = mapper.map(user, UserDto.class);
+        userService.createUser(userDto);
+
+        ResponseUser responseUser = mapper.map(userDto, ResponseUser.class);
+
+        return "Create user method called.";
+    }
 }
