@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/user-service")
 @Slf4j
 public class UserController {
     private Environment env;
