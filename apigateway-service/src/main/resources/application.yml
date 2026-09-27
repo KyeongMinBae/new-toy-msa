@@ -37,4 +37,9 @@ spring:
               filters:
 #                - AddRequestHeader=s-request, 2nd-request-header-by-yaml
 #                - AddResponseHeader=s-request, 2nd-response-header-by-yaml
-                - CustomFilter
+                - name: CustomFilter
+                - name: LoggingFilter
+                  args:
+                    baseMessage: Hi, there.
+                    preLogger: true
+                    postLogger: true
