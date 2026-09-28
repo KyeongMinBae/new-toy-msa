@@ -21,11 +21,12 @@ spring:
   security:
     user:
       name: user
-      password: $2a$10$hsY.vHztsCBrxI7C81H5IOS9jYYd.koOAy5U5CdWEQmYeOvWZh/bK
+      password: $2a$10$8vlgXH3otGmC6RFhdKXBh.sWDEqVuw/HhNo0hXB6aNh8nwMKM7QFe
 
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    prefer-ip-address: true
   client:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
