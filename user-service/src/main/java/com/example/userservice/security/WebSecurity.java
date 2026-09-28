@@ -22,7 +22,7 @@ public class WebSecurity {
     private Environment env;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public static final String ALLOWED_IP_ADDRESS = "!27.0.0.1";
+    public static final String ALLOWED_IP_ADDRESS = "127.0.0.1";
     public static final String SUBNET = "/32";
     public static final IpAddressMatcher ALLOWED_IP_ADDRESS_MATCHER = new IpAddressMatcher(ALLOWED_IP_ADDRESS + SUBNET);
 
@@ -34,10 +34,11 @@ public class WebSecurity {
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticcationManagerBuilder =
+        AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
 
-        AuthenticationManager authenticationManager = authenticcationManagerBuilder.build();
+        AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
         http.csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
@@ -45,7 +46,7 @@ public class WebSecurity {
                         .requestMatchers("/**").access(
                                 new WebExpressionAuthorizationManager(
                                         "hasIpAddress('127.0.0.1') or hasIpAddress('::1') or " +
-                                                "hasIpAddress('172.30.1.82') or hasIpAddress('::1')")) // host pc ip address
+                                                "hasIpAddress('172.30.64.1') or hasIpAddress('::1')")) // host pc ip address
                         .anyRequest().authenticated()                       // 그 외는 인증 필요
                 )
                 .authenticationManager(authenticationManager)
@@ -56,9 +57,8 @@ public class WebSecurity {
         return http.build();
     }
 
-    @Bean
     private Filter getAutenticationFilter(AuthenticationManager authenticationManager) {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter();
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(userService, env, authenticationManager);
         authenticationFilter.setAuthenticationManager(authenticationManager);
 
         return authenticationFilter;
