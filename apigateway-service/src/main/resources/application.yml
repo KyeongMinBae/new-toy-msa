@@ -11,7 +11,11 @@ eureka:
 spring:
   application:
     name: apigateway-service
+  config:
+    import: optional:configserver:http://localhost:8888 # 구성정보 설정
   cloud:
+    config:
+      name: ecommerce # yml 파일명 앞부분
     gateway:
       server:
         webflux:
@@ -77,5 +81,16 @@ spring:
                     preLogger: true
                     postLogger: true
 
-token:
-  secret: my-very-long-secret-key-1234567890123456
+#token:
+#  secret: my-very-long-secret-key-1234567890123456
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - refresh
+          - health
+          - beans
+          - info
+          - httpexchanges
