@@ -11,11 +11,12 @@ eureka:
 spring:
   application:
     name: apigateway-service
-  config:
-    import: optional:configserver:http://localhost:8888 # 구성정보 설정
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
   cloud:
-    config:
-      name: ecommerce # yml 파일명 앞부분
     gateway:
       server:
         webflux:
@@ -51,6 +52,14 @@ spring:
                 - RemoveRequestHeader=Cookie
                 - RewritePath=/user-service/(?<segment>.*), /$\{segment}
                 - AuthorizationHeaderFilter
+            - id: user-service
+              uri: lb://USER-SERVICE
+              predicates:
+                - Path=/user-service/actuator/**
+                - Method=GET,POST
+              filters:
+                - RemoveRequestHeader=Cookie
+                - RewritePath=/user-service/(?<segment>.*), /$\{segment}
             - id: catalog-service
               uri: lb://CATALOG-SERVICE
               predicates:
@@ -93,4 +102,5 @@ management:
           - health
           - beans
           - info
-          - httpexchanges
+          - httptrace
+          - busrefresh
