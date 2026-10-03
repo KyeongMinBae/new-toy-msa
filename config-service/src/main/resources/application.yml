@@ -10,7 +10,7 @@ spring:
         username: guest
         password: guest
     profiles:
-        active: native
+        active: git
     cloud:
         config:
             server:
