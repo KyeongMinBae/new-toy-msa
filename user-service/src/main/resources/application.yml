@@ -4,8 +4,8 @@ server:
 spring:
   application:
     name: user-service
-  config:
-    import: optional:configserver:http://localhost:8888 # 구성정보 설정
+  profiles:
+    active: dev
   h2:
     console:
       enabled: true
@@ -24,9 +24,6 @@ spring:
     user:
       name: user
       password: $2a$10$8vlgXH3otGmC6RFhdKXBh.sWDEqVuw/HhNo0hXB6aNh8nwMKM7QFe
-  cloud:
-    config:
-      name: ecommerce # yml 파일명 앞부분
 
 eureka:
   instance:
@@ -39,7 +36,7 @@ eureka:
     register-with-eureka: true
 
 greeting:
-  message: Welcome to the Simple E-commerce - 2nd.
+  message: Welcome to the Simple E-commerce. (spring boot)
 
 #token:
 #  secret: my-very-long-secret-key-1234567890123456
@@ -54,3 +51,4 @@ management:
           - health
           - beans
           - info
+          - env
