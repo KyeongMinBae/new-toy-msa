@@ -30,6 +30,11 @@ spring:
       name: user
       password: $2a$10$8vlgXH3otGmC6RFhdKXBh.sWDEqVuw/HhNo0hXB6aNh8nwMKM7QFe
 
+logging:
+  level:
+    org.springframeworksecurity: DEBUG
+    com.example.userservice.client: DEBUG
+
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
