@@ -82,11 +82,8 @@ public class UserServiceImpl implements UserService {
 //        List<ResponseOrder> orderList = orderListResponse.getBody();
 
         List<ResponseOrder> orderList = null;
-        try {
-            orderList = orderServiceClient.getOrders(userId);
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-        }
+        orderList = orderServiceClient.getOrders(userId);
+
         userDto.setOrders(orderList);
 
         return userDto;
