@@ -32,6 +32,15 @@ eureka:
     register-with-eureka: true
 
 management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - httptrace
+          - metrics
+          - prometheus
   ## 추가
   tracing:
     sampling:

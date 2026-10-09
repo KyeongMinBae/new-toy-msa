@@ -6,11 +6,9 @@ import com.example.userservice.service.UserService;
 import com.example.userservice.vo.Greeting;
 import com.example.userservice.vo.RequestUser;
 import com.example.userservice.vo.ResponseUser;
+import io.micrometer.core.annotation.Timed;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-//import org.modelmapper.ModelMapper;
-//import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+//import org.modelmapper.ModelMapper;
+//import org.modelmapper.convention.MatchingStrategies;
 
 @RestController
 //@RequestMapping("/user-service")
@@ -41,6 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/health-check") // http://localhost:60000/health-check
+    @Timed(value="users.status", longTask = true)
     public String status() {
         return String.format("It's Working in User Service"
                 + ", port(local.server.port)=" + env.getProperty("local.server.port")
@@ -52,6 +54,7 @@ public class UserController {
     }
 
     @GetMapping("/welcome")
+    @Timed(value="users.welcome", longTask = true)
     public String welcome(HttpServletRequest request) {
         log.info("users.welcome ip: {}, {}, {}, {}", request.getRemoteAddr()
                 , request.getRemoteHost(), request.getRequestURI(), request.getRequestURL());
