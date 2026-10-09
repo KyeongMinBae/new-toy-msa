@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: user-service
+  zipkin:
+    base-url: http://127.0.0.1:9411
+    enabled: true
   rabbitmq:
     host: 127.0.0.1
     port: 5672
@@ -29,11 +32,6 @@ spring:
     user:
       name: user
       password: $2a$10$8vlgXH3otGmC6RFhdKXBh.sWDEqVuw/HhNo0hXB6aNh8nwMKM7QFe
-
-logging:
-  level:
-    org.springframeworksecurity: DEBUG
-    com.example.userservice.client: DEBUG
 
 eureka:
   instance:
@@ -61,3 +59,19 @@ management:
           - health
           - beans
           - busrefresh
+  ## 추가
+  tracing:
+    sampling:
+      probability: 1.0
+    propagation:
+      type: b3
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+logging:
+  level:
+    com.example.orderservice: DEBUG
+  ## 추가
+  pattern:
+    level: "%5p [%X{traceId:-},%X{spanId:-}]"
